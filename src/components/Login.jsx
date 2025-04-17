@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import {Link,useNavigate} from 'react-router-dom'
 import { login as authLogin} from '../store/authSlice'
-import { Button,Input } from "../components/index";
+import { Button,Input,Logo } from "../components/index";
 import authService from "../appwrite/auth";
 import {useForm} from 'react-hook-form'
 import { useDispatch } from "react-redux";
@@ -21,7 +21,7 @@ export default function Login(){
                 if(userData){
                     dispatch(authLogin(userData))
                 }
-                navigate("/");
+                navigate("/dashboard");
             }
         } catch (error) {
             setError(error.message);

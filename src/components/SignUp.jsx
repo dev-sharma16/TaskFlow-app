@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login  } from '../store/authSlice'
-import { Button, Input } from './index';
+import { Button, Input, Logo } from './index';
 import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form"
 import { useDispatch } from "react-redux";
@@ -22,7 +22,7 @@ export default function SignUp(){
                 if(userData){
                     dispatch(login(userData))
                 }
-                navigate("/")
+                navigate("/dashboard")
             }
         } catch (error) {
             throw error
