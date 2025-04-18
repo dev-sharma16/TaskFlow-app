@@ -7,8 +7,10 @@ import store from './store/store.js'
 import Home from './pages/Home.jsx'
 import Dashboard from './pages/DashBoard.jsx'
 import AddTasks from './pages/AddTask.jsx'
+import EditTask from './pages/EditTask.jsx'
 import Login from "./pages/Login.jsx"
 import SignUp from './pages/SignUp.jsx'
+import TaskDetail from './pages/TaskDetail.jsx'
 import { AuthLayout } from './components/index.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -50,6 +52,22 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication = {true}>
             <AddTasks/>
+          </AuthLayout>
+        )
+      },
+      {
+        path : "/task/:taskId",
+        element: (
+          <AuthLayout authentication = {true}>
+            <TaskDetail/>
+          </AuthLayout>
+        )
+      },
+      {
+        path : "/edit-task/:taskId",
+        element: (
+          <AuthLayout authentication = {true}>
+            <EditTask/>
           </AuthLayout>
         )
       },
