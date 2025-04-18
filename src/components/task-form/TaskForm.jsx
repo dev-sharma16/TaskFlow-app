@@ -80,14 +80,14 @@ export default function TaskForm({task}){
           {/* Status */}
           <Select
             label="Status"
-            options={["Todo", "In Progress", "Completed"]}
+            options={["todo", "in-progress", "done"]}
             {...register("status", { required: true })}
           />
           
           {/* Priority */}
           <Select
             label="Priority"
-            options={["Low", "Medium", "High"]}
+            options={["low", "medium", "high"]}
             {...register("priority", { required: true })}
           />
     
