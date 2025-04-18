@@ -3,6 +3,10 @@ import service from "../appwrite/config";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { TaskCard } from "../components";
+import DroppableColumn from "../components/DroppableColumn";
+import { DndContext,closestCorners,
+         useSensor,useSensors,
+         PointerSensor } from "@dnd-kit/core";
 
 function Dashboard() {
   
@@ -15,6 +19,12 @@ function Dashboard() {
   const [loading,setLoading] = useState(true)
   const userData = useSelector((state)=> state.auth.userData)
   const navigate = useNavigate()
+
+  const statusLabels = {
+    todo: "To Do",
+    inProgress: "In Progress",
+    done: "Completed",
+  };
 
   useEffect(()=>{
     const fetchTasks = async()=>{
@@ -33,14 +43,13 @@ function Dashboard() {
         }
 
         response.documents.forEach((task)=>{
-          const status = task.status?.toLowerCase()
+          const status = task.status
           if(grouped[status]){
             grouped[status].push(task)
           }
         })
 
         setTasks(grouped)
-
       } 
       catch (error) {
         throw error
@@ -53,35 +62,86 @@ function Dashboard() {
     fetchTasks()
   },[userData,navigate])
 
-  if (loading) return <div className="text-center mt-10 text-xl">Loading tasks...</div>;
+  // Drag and Drop functionality
 
-  const statusLabels = {
-    todo: "To Do",
-    inprogress: "In Progress",
-    done: "Completed",
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  const findTaskById = (id) => {
+    for (const status in tasks) {
+      const task = tasks[status].find((t) => t.$id === id);
+      if (task) return task;
+    }
+    return null;
   };
+
+  const updateTaskStatus = async (taskId, newStatus) => {
+    try {
+      await service.updateTask(taskId, { status: newStatus });
+    } catch (error) {
+      console.error("Error updating task status:", error);
+    }
+  };
+
+  const moveTaskLocally = (taskId, fromStatus, toStatus) => {
+    const taskToMove = tasks[fromStatus].find((t) => t.$id === taskId);
+    if (!taskToMove) return;
+
+    taskToMove.status = toStatus;
+
+    setTasks((prev) => ({
+      ...prev,
+      [fromStatus]: prev[fromStatus].filter((t) => t.$id !== taskId),
+      [toStatus]: [taskToMove, ...prev[toStatus]],
+    }));
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    const task = findTaskById(activeId);
+    if (!task || task.status === overId) return;
+
+    updateTaskStatus(activeId, overId);
+    moveTaskLocally(activeId, task.status, overId);
+  }
+  
+  if (loading) return <div className="text-center mt-10 text-xl">Loading tasks...</div>;
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-center">Task Dashboard</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {["todo", "inProgress", "done"].map((status) => (
-          <div key={status} className="bg-white p-4 rounded shadow">
-            <h2 className="text-xl font-semibold capitalize mb-4 text-center text-gray-700">
-              {statusLabels[status]} 
-            </h2>
-
-            {tasks[status].length > 0 ? (
-              tasks[status].map((task)=>(
-                 <TaskCard key={task.$id} task={task}/>
-              ))
-            ) : (
-              <p className="text-sm text-gray-500 text-center">No tasks</p>
-            )}
-          </div>
-        ))}
-      </div>
+      <DndContext
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+        sensors={sensors}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {["todo", "inProgress", "done"].map((status) => (
+            <div
+              key={status}
+              className="bg-white rounded shadow p-2 md:p-4"
+            >
+              <h2 className="text-xl font-semibold capitalize mb-4 text-center text-gray-700">
+                {statusLabels[status]}
+              </h2>
+              <DroppableColumn id={status}>
+                {tasks[status].length > 0 ? (
+                  tasks[status].map((task) => (
+                    <TaskCard key={task.$id} task={task} />
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500 text-center">No tasks</p>
+                )}
+              </DroppableColumn>
+            </div>
+          ))}
+        </div>
+      </DndContext>
     </div>
   );
 }
