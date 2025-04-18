@@ -71,7 +71,7 @@ export class Service{
     return await this.databases.listDocuments(
        conf.appwriteDatabaseId,
        conf.appwriteCollectionId,
-       [Query.equal("userID", userId)]
+       [Query.equal("userId", userId)]
     )
   }
 
