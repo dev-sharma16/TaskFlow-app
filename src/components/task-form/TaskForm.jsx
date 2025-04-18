@@ -10,8 +10,8 @@ export default function TaskForm({task}){
         defaultValues: {
             title: task ?.title || "",
             description: task ?.description || "",
-            status: task ?.status || "Todo",
-            priority: task ?.priority || "Medium",
+            status: task ?.status || "todo",
+            priority: task ?.priority || "medium",
             dueDate: task ?.dueDate || ""
         }
     })
@@ -80,7 +80,7 @@ export default function TaskForm({task}){
           {/* Status */}
           <Select
             label="Status"
-            options={["todo", "in-progress", "done"]}
+            options={["todo", "inProgress", "done"]}
             {...register("status", { required: true })}
           />
           
