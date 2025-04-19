@@ -63,7 +63,7 @@ function Dashboard() {
   },[userData,navigate])
 
   // Drag and Drop functionality
-  const [activeDragTask, setActiveDragTask] = useState(null); // 🆕 holds the dragged task object
+  const [activeDragTask, setActiveDragTask] = useState(null); object
 
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -96,18 +96,16 @@ function Dashboard() {
     }));
   };
 
-  // 🆕 Triggered when dragging starts
   const handleDragStart = (event) => {
     const { active } = event;
     const task = findTaskById(active.id);
     if (task) setActiveDragTask(task);
   };
 
-  // 🆕 When dragging ends
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
-    setActiveDragTask(null); // 🆕 reset drag state
+    setActiveDragTask(null);
 
     if (!over) return;
 
@@ -128,8 +126,8 @@ function Dashboard() {
       <h1 className="text-3xl font-bold mb-6 text-center">Task Dashboard</h1>
       <DndContext
         collisionDetection={closestCorners}
-        onDragStart={handleDragStart} // 🆕 handle start
-        onDragEnd={handleDragEnd}     // 🆕 handle end
+        onDragStart={handleDragStart} 
+        onDragEnd={handleDragEnd}    
         sensors={sensors}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -157,7 +155,7 @@ function Dashboard() {
             </div>
           ))}
         </div>
-        {/* 🆕 Drag overlay that follows the cursor */}
+        {/*  Drag overlay that follows the cursor */}
         <DragOverlay>
           {activeDragTask ? <TaskCard task={activeDragTask} /> : null}
         </DragOverlay>

@@ -12,10 +12,10 @@ const TaskCard = ({task, isDragging = false})=>{
       transform: transform
          ? `translate(${transform.x}px, ${transform.y}px)`
          : undefined,
-      opacity: isDragging ? 0 : 1, // 🆕 hide original while dragging
+      opacity: isDragging ? 0 : 1, 
       boxShadow: isDragging ? "0 0 0 1px #aaa" : undefined,
       cursor: "grab",
-      pointerEvents: isDragging ? "none" : "auto", // 🆕 disable pointer events when hidden
+      pointerEvents: isDragging ? "none" : "auto", 
       transition: "opacity 0.2s ease",
     }
  
