@@ -6,7 +6,7 @@ import { TaskCard } from "../components";
 import DroppableColumn from "../components/DroppableColumn";
 import { DndContext,closestCorners,
          useSensor,useSensors,
-         PointerSensor } from "@dnd-kit/core";
+         PointerSensor,DragOverlay } from "@dnd-kit/core";
 
 function Dashboard() {
   
@@ -15,7 +15,7 @@ function Dashboard() {
     inProgress: [],
     done: [],
   })
-  
+
   const [loading,setLoading] = useState(true)
   const userData = useSelector((state)=> state.auth.userData)
   const navigate = useNavigate()
@@ -63,6 +63,7 @@ function Dashboard() {
   },[userData,navigate])
 
   // Drag and Drop functionality
+  const [activeDragTask, setActiveDragTask] = useState(null); // 🆕 holds the dragged task object
 
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -95,8 +96,18 @@ function Dashboard() {
     }));
   };
 
+  // 🆕 Triggered when dragging starts
+  const handleDragStart = (event) => {
+    const { active } = event;
+    const task = findTaskById(active.id);
+    if (task) setActiveDragTask(task);
+  };
+
+  // 🆕 When dragging ends
   const handleDragEnd = (event) => {
     const { active, over } = event;
+
+    setActiveDragTask(null); // 🆕 reset drag state
 
     if (!over) return;
 
@@ -108,7 +119,7 @@ function Dashboard() {
 
     updateTaskStatus(activeId, overId);
     moveTaskLocally(activeId, task.status, overId);
-  }
+  };
   
   if (loading) return <div className="text-center mt-10 text-xl">Loading tasks...</div>;
 
@@ -117,7 +128,8 @@ function Dashboard() {
       <h1 className="text-3xl font-bold mb-6 text-center">Task Dashboard</h1>
       <DndContext
         collisionDetection={closestCorners}
-        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart} // 🆕 handle start
+        onDragEnd={handleDragEnd}     // 🆕 handle end
         sensors={sensors}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -132,7 +144,11 @@ function Dashboard() {
               <DroppableColumn id={status}>
                 {tasks[status].length > 0 ? (
                   tasks[status].map((task) => (
-                    <TaskCard key={task.$id} task={task} />
+                    <TaskCard
+                       key={task.$id}
+                       task={task}
+                       isDragging={activeDragTask?.$id === task.$id}
+                    />
                   ))
                 ) : (
                   <p className="text-sm text-gray-500 text-center">No tasks</p>
@@ -141,6 +157,10 @@ function Dashboard() {
             </div>
           ))}
         </div>
+        {/* 🆕 Drag overlay that follows the cursor */}
+        <DragOverlay>
+          {activeDragTask ? <TaskCard task={activeDragTask} /> : null}
+        </DragOverlay>
       </DndContext>
     </div>
   );
