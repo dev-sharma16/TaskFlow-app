@@ -63,7 +63,7 @@ function Dashboard() {
   },[userData,navigate])
 
   // Drag and Drop functionality
-  const [activeDragTask, setActiveDragTask] = useState(null); object
+  const [activeDragTask, setActiveDragTask] = useState(null);
 
   const sensors = useSensors(useSensor(PointerSensor));
 

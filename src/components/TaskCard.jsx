@@ -26,11 +26,11 @@ const TaskCard = ({task, isDragging = false})=>{
                style={style}
                {...listeners}
                {...attributes}
-               className="mb-4 p-3 border border-gray-300 rounded bg-gray-50 hover:bg-gray-100 transition"
+               className="mb-4 p-4 rounded-xl bg-white border border-slate-200 hover:shadow-md transition duration-200"
              >
-              <h3 className="text-lg font-medium">{task.title}</h3>
-              <p className="text-sm text-gray-600">{task.description}</p>
-              <p className="text-xs mt-2 text-gray-500">
+              <h3 className="text-lg font-semibold text-slate-800">{task.title}</h3>
+              <p className="text-sm text-slate-600 mt-1">{task.description}</p>
+              <p className="text-xs text-slate-500 mt-3">
                 Due: {task.dueDate || "No due date"}
               </p>
           </div>

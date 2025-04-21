@@ -8,8 +8,8 @@ const DroppableColumn = ({ id, children }) => {
   return (
     <div
       ref={setNodeRef}
-      className={`min-h-[200px] p-4 rounded shadow transition-all ${
-        isOver ? "bg-blue-100" : "bg-white"
+      className={`min-h-[200px] p-4 rounded-2xl border border-slate-200 bg-slate-50 transition-all duration-200 ${
+        isOver ? "bg-indigo-100 border-indigo-300" : ""
       }`}
     >
       {children}

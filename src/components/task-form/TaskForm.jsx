@@ -49,66 +49,65 @@ export default function TaskForm({task}){
     }
 
     return(
-        <form 
-          onSubmit={handleSubmit(onSubmit)}
-          className="bg-white p-6 rounded-lg shadow-md space-y-4"
-        >
-          {/* Title */}
-          <Input
-            label="Title"
-            placeholder = "Enter Task"
-            {...register("title",{required: "Title is required"})}
-          />
-          {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+      <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="bg-gray-100 p-6 rounded-2xl shadow-lg space-y-6 border border-gray-300 max-w-2xl mx-auto mt-6"
+    >
+      {/* Title */}
+      <Input
+        label="Title"
+        placeholder="Enter Task Title"
+        {...register("title", { required: "Title is required" })}
+      />
+      {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
 
-          {/* Description */}
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              Description
-            </label>
-            <textarea
-              {...register("description", { required: "Description is required" })}
-              rows="4"
-              className="px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50     duration-200 border border-gray-300 w-full"
-              placeholder="Enter task description"
-            />
-            {errors.description && (
-              <p className="text-red-500">{errors.description.message}</p>
-            )}
-          </div>
-          
-          {/* Status */}
-          <Select
-            label="Status"
-            options={["todo", "inProgress", "done"]}
-            {...register("status", { required: true })}
-          />
-          
-          {/* Priority */}
-          <Select
-            label="Priority"
-            options={["low", "medium", "high"]}
-            {...register("priority", { required: true })}
-          />
-    
-          {/* Due Date */}
-          <Input
-            label="Due Date"
-            type="date"
-            {...register("dueDate", { required: "Due date is required" })}
-          />
-          {errors.dueDate && (
-            <p className="text-red-500">{errors.dueDate.message}</p>
-          )}
+      {/* Description */}
+      <div>
+        <label className="block mb-1 text-sm font-medium text-gray-700">
+          Description
+        </label>
+        <textarea
+          {...register("description", { required: "Description is required" })}
+          rows="4"
+          className="px-3 py-2 rounded-xl bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-300 w-full"
+          placeholder="Enter task description"
+        />
+        {errors.description && (
+          <p className="text-red-500 text-sm">{errors.description.message}</p>
+        )}
+      </div>
 
-          <Button
-            type="submit"
-            bgColor={task ? "bg-green-500" : undefined}
-            className="w-full"
-          >
-            {task ? "Update" : "Submit"}
-          </Button>
+      {/* Status */}
+      <Select
+        label="Status"
+        options={["todo", "inProgress", "done"]}
+        {...register("status", { required: true })}
+      />
 
-        </form>
+      {/* Priority */}
+      <Select
+        label="Priority"
+        options={["low", "medium", "high"]}
+        {...register("priority", { required: true })}
+      />
+
+      {/* Due Date */}
+      <Input
+        label="Due Date"
+        type="date"
+        {...register("dueDate", { required: "Due date is required" })}
+      />
+      {errors.dueDate && (
+        <p className="text-red-500 text-sm">{errors.dueDate.message}</p>
+      )}
+
+      <Button
+        type="submit"
+        bgColor={task ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"}
+        className="w-full text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"
+      >
+        {task ? "Update Task" : "Create Task"}
+      </Button>
+    </form>
     )
 }

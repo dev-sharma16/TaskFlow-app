@@ -32,12 +32,12 @@ export default function SignUp(){
     return (
         <div className="flex items-center justify-center">
             <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
-               <div className="mb-2 flex justify-center">
+               {/* <div className="mb-2 flex justify-center">
                        <span className="inline-block w-full max-w-[100px]">
                            <Logo width="100%" />
                        </span>
                </div>
-               <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2>
+               <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2> */}
                    <p className="mt-2 text-center text-base text-black/60">
                        Already have an account?&nbsp;
                        <Link
