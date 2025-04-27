@@ -38,28 +38,40 @@ export default function TaskDetail(){
     if(!task) return <p>Task not found..!</p>
 
     return (
-        <div className="p-4 max-w-2xl mx-auto">
-          <h1 className="text-2xl font-bold">{task.title}</h1>
-          <p className="mt-2"><strong>Status:</strong> {task.status}</p>
-          <p className="mt-2"><strong>Priority:</strong> {task.priority}</p>
-          <p className="mt-2"><strong>Description:</strong> {task.description}</p>
-          <p className="mt-2"><strong>Due Date:</strong> {task.dueDate}</p>
-    
-          <div className="flex gap-4 mt-4">
-            <button 
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-              onClick={() => navigate(`/edit-task/${taskId}`)}
-            >
-              Edit
-            </button>
-    
-            <button 
-              className="px-4 py-2 bg-red-600 text-white rounded"
-              onClick={handleDelete}
-            >
-              Delete
-            </button>
-          </div>
-        </div>
+          <div className="p-6 bg-gray-100 min-h-screen">
+                <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
+                  <h1 className="text-3xl font-bold text-center mb-4">{task.title}</h1>
+                  <div className="space-y-4">
+                    <p>
+                      <strong>Status:</strong> {task.status}
+                    </p>
+                    <p>
+                      <strong>Priority:</strong> {task.priority}
+                    </p>
+                    <p>
+                      <strong>Description:</strong> {task.description}
+                    </p>
+                    <p>
+                      <strong>Due Date:</strong> {task.dueDate}
+                    </p>
+                  </div>
+          
+                  <div className="flex gap-4 mt-6 justify-center">
+                    <button
+                      className="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition"
+                      onClick={() => navigate(`/edit-task/${taskId}`)}
+                    >
+                      Edit
+                    </button>
+          
+                    <button
+                      className="px-6 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
       )
 }
